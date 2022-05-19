@@ -11,6 +11,7 @@ const port = process.env.PORT || "5000";
 // Register routes
 app.use(ROUTES.user, userRoutes);
 app.use(ROUTES.blog, blogRoutes);
+
 // Register middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -20,6 +21,7 @@ app.get("/", (req: Request, res: Response) => {
 	res.json({ message: "success", error: null });
 });
 
+// Initilize app
 app.listen(port, () => {
 	console.log(`Server is running at: http://localhost:${port}`);
 });
