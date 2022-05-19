@@ -11,7 +11,7 @@ const app: Express = express();
 const port = process.env.PORT || "5000";
 
 // Register middlewares
-app.use(express.json());
+app.use(express.json()); // Parses json request body
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded.
 app.use(helmet()); // Adds recomended response headers for additional security.
 

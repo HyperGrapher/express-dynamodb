@@ -20,13 +20,13 @@ router
 // Routes with params
 router
 	.route("/:userId")
-	.get((req: Request<{ userId: string }, {}, {}, {}>, res: Response<BasicResponse>) => {
+	.get((req: Request<{ userId: string }>, res: Response<BasicResponse>) => {
 		res.status(200).json({ message: `Get user with ID: ${req.params.userId}`, error: null });
 	})
-	.patch((req: Request<{ userId: string }, {}, {}, {}>, res: Response<BasicResponse>) => {
+	.patch((req: Request<{ userId: string }>, res: Response<BasicResponse>) => {
 		res.status(204).json({ message: `Patch user with ID: ${req.params.userId}`, error: null });
 	})
-	.delete((req: Request<{ userId: string }, {}, {}, {}>, res: Response<BasicResponse>) => {
+	.delete((req: Request<{ userId: string }>, res: Response<BasicResponse>) => {
 		res.status(200).json({ message: `Delete user with ID: ${req.params.userId}`, error: null });
 	});
 
