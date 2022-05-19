@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { BasicResponse } from "../interfaces/BasicResponse";
-import { logRouteAndTime } from "../middlewares/Logger";
+import { BasicResponse } from "../interfaces/responses.dto";
+import { logRouteAndTime } from "../middlewares/logger.middleware";
 
 const router = express.Router();
 
