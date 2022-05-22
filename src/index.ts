@@ -1,5 +1,5 @@
-import { BasicResponse } from './api/interfaces/responses.dto';
-import express, { Express, Request, Response } from "express";
+import { BasicResponse } from "./api/interfaces/responses.dto";
+import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import userRoutes from "./api/routes/user.routes";
 import blogRoutes from "./api/routes/blog.route";
