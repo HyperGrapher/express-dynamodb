@@ -1,28 +1,19 @@
-import { createPost, deletePost, updatePost } from "./../services/blog.service";
 import { Request, Response } from "express";
 import { IPostDTO, IPostCreateBody } from "../interfaces/blog.dto";
-import { getAllPosts, getPostById } from "../services/blog.service";
+import { getAllPosts, getPostById, createPost, deletePost, updatePost } from "../services/blog.service";
 
 export const index = async (req: Request, res: Response) => {
 	try {
 		const posts = await getAllPosts();
 
-		// If query has an error, return response with message
-		if (posts && posts.$response.error) {
-			return res.status(400).json({
-				data: posts.Items,
-				message: posts.$response.error.message,
-				cause: posts.$response.error.cause,
-				error: true,
-			});
-		}
-
 		// If no post exists, return response with message
 		if (posts && posts.Count === 0) {
 			return res.status(404).json({
-				data: posts.Items,
-				message: "No post found",
-				error: true,
+				data: [],
+				message: "error",
+				error: {
+					message: "No post found in the table",
+				},
 			});
 		}
 
@@ -33,7 +24,7 @@ export const index = async (req: Request, res: Response) => {
 			error: null,
 		});
 	} catch (error) {
-		return res.status(500).json({ message: "error", error: true });
+		return res.status(500).json({ message: "error", error });
 	}
 };
 
@@ -43,8 +34,11 @@ export const detail = async (req: Request<{ postId: string }>, res: Response) =>
 	// Check if the param is a number.
 	if (isNaN(Number(postId))) {
 		return res.status(400).json({
-			message: "Request parameter is NaN",
-			error: true,
+			data: {},
+			message: "error",
+			error: {
+				message: "Request parameter is NaN",
+			},
 		});
 	}
 
@@ -55,8 +49,10 @@ export const detail = async (req: Request<{ postId: string }>, res: Response) =>
 		if (Object.keys(post).length === 0) {
 			return res.status(404).json({
 				data: {},
-				message: `Post with provided postId "${postId}" doesn't exist!`,
-				error: true,
+				message: "error",
+				error: {
+					message: `Post with provided postId "${postId}" doesn't exist!`,
+				},
 			});
 		}
 
@@ -75,13 +71,17 @@ export const create = async (req: Request<{}, {}, IPostCreateBody>, res: Respons
 	// Check if request body exist or all required fields exist
 	if (Object.keys(req.body).length === 0) {
 		return res.status(400).json({
-			message: "Request body is empty",
-			error: true,
+			message: "error",
+			error: {
+				message: "Request body is empty",
+			},
 		});
 	} else if (Object.keys(req.body).length < 3) {
 		return res.status(400).json({
-			message: "Please provide all required fields",
-			error: true,
+			message: "error",
+			error: {
+				message: "Please provide all required fields",
+			},
 		});
 	}
 
@@ -124,8 +124,8 @@ export const destroy = async (req: Request<{ postId: string }>, res: Response) =
 
 	try {
 		await deletePost(postId);
-		res.status(204).json({ message: `success`, error: null });
-	} catch (error) {}
-
-	res.status(200).json({ message: `Delete blog post with ID: ${req.params.postId}`, error: null });
+		res.status(200).json({ message: `success`, error: null });
+	} catch (error: any) {
+		res.status(error.statusCode).json({ message: "error", error });
+	}
 };

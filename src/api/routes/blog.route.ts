@@ -8,9 +8,9 @@ const router = express.Router();
 router.use(logRouteAndTime);
 
 // Routes without params
-router.route("/").get(index).post(create);
+router.route("/").get(index).post(create); // 'api/blog'
 
 // Routes with params
-router.route("/:postId").get(detail).patch(update).delete(destroy);
+router.route("/:postId").get(detail).patch(update).delete(destroy); // 'api/blog/3'
 
 export default router;

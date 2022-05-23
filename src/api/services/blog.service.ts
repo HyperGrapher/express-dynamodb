@@ -16,7 +16,7 @@ export const getAllPosts = async (): Promise<PromiseResult<DocumentClient.ScanOu
 };
 
 export const getPostById = async (postId: string): Promise<PromiseResult<DocumentClient.GetItemOutput, AWSError>> => {
-	const params = {
+	const params: DocumentClient.GetItemInput = {
 		TableName: TABLE_NAME,
 		Key: {
 			postId,
@@ -34,26 +34,28 @@ export const createPost = async (
 		created_at: new Date().toISOString(),
 		postId: String(getRandomInt(1000)),
 	};
-	console.log(post);
 
-	const params = {
+	const params: DocumentClient.PutItemInput = {
 		TableName: TABLE_NAME,
 		Item: post,
 	};
+
+	console.log(post);
 
 	return await dynamoClient.put(params).promise();
 };
 
 export const updatePost = async (postId: string, postBody: IPostDTO) => {
-	const params = {
+	const params: DocumentClient.UpdateItemInput = {
 		TableName: TABLE_NAME,
 		Key: {
 			postId,
 		},
-		UpdateExpression: "set " + Object.keys(postBody)
-				.map((k) => `#${k} = :${k}`)
+		UpdateExpression:
+			"set " +
+			Object.keys(postBody)
+				.map((key) => `#${key} = :${key}`)
 				.join(", "),
-
 		ExpressionAttributeNames: Object.entries(postBody).reduce(
 			(accumulator, current) => ({ ...accumulator, [`#${current[0]}`]: current[0] }),
 			{}
@@ -69,7 +71,7 @@ export const updatePost = async (postId: string, postBody: IPostDTO) => {
 };
 
 export const deletePost = async (postId: string): Promise<PromiseResult<DocumentClient.PutItemOutput, AWSError>> => {
-	const params = {
+	const params: DocumentClient.DeleteItemInput = {
 		TableName: TABLE_NAME,
 		Key: {
 			postId,
