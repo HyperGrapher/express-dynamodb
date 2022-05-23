@@ -1,15 +1,17 @@
 export interface IPostDTO {
-	id: string;
+	postId: string;
 	text: string;
 	title: string;
 	username: string;
+	created_at: string;
+	published: string;
 	comments: ICommentDTO[];
 }
 
-export type IPostCreateBody = Pick<IPostDTO, "text" | "username" | "title">;
+export type IPostCreateBody = Pick<IPostDTO, "text" | "username" | "title" | "published">;
 
 export interface ICommentDTO {
-	id: string;
+	commentId: string;
 	text: string;
 	username: string;
 }
@@ -25,4 +27,3 @@ export interface IPostListDTO {
 	message: string;
 	data: IPostDTO[];
 }
-

@@ -1,7 +1,6 @@
 import { BasicResponse } from "./api/interfaces/responses.dto";
 import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
-import userRoutes from "./api/routes/user.routes";
 import blogRoutes from "./api/routes/blog.route";
 import { ROUTES } from "./config/constants.config";
 import helmet from "helmet";
@@ -16,7 +15,6 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use(helmet()); // Adds recomended response headers for additional security.
 
 // Register routes
-app.use(ROUTES.user, userRoutes);
 app.use(ROUTES.blog, blogRoutes);
 
 // Root endpoint

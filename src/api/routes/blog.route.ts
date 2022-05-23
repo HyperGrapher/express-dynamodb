@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { BasicResponse } from "../interfaces/responses.dto";
 import { logRouteAndTime } from "../middlewares/logger.middleware";
 import { index, detail, create, update, destroy } from "../controllers/blog.controller";
 

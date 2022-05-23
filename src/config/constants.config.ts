@@ -4,3 +4,4 @@ export const ROUTES = {
 }
 
 
+export const TABLE_NAME = "posts";
