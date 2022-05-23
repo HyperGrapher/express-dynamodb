@@ -44,22 +44,27 @@ export const createPost = async (
 	return await dynamoClient.put(params).promise();
 };
 
-export const updatePost = async (
-	body: IPostDTO,
-	postId: string
-): Promise<PromiseResult<DocumentClient.PutItemOutput, AWSError>> => {
-	const post = {
-		...body,
-		postId,
-	};
-	console.log(post);
-
+export const updatePost = async (postId: string, postBody: IPostDTO) => {
 	const params = {
 		TableName: TABLE_NAME,
-		Item: post,
 		Key: {
-			postId: postId,
+			postId,
 		},
+		UpdateExpression:
+			"set " +
+			Object.keys(postBody)
+				.map((k) => `#${k} = :${k}`)
+				.join(", "),
+
+		ExpressionAttributeNames: Object.entries(postBody).reduce(
+			(acc, cur) => ({ ...acc, [`#${cur[0]}`]: cur[0] }),
+			{}
+		),
+		ExpressionAttributeValues: Object.entries(postBody).reduce(
+			(acc, cur) => ({ ...acc, [`:${cur[0]}`]: cur[1] }),
+			{}
+		),
+		ReturnValues: "UPDATED_NEW",
 	};
 
 	return await dynamoClient.update(params).promise();
