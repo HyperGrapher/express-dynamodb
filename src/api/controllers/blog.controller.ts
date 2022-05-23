@@ -106,7 +106,7 @@ export const update = async (req: Request<{ postId: string }, {}, IPostDTO>, res
 
 	try {
 		const post = await updatePost(postId, req.body);
-		res.status(201).json({ message: `success`, error: null, data: post.Attributes });
+		res.status(201).json({ message: `success`, error: null, data: post });
 	} catch (error: any) {
 		res.status(error.statusCode).json({ message: "error", error });
 	}

@@ -50,18 +50,16 @@ export const updatePost = async (postId: string, postBody: IPostDTO) => {
 		Key: {
 			postId,
 		},
-		UpdateExpression:
-			"set " +
-			Object.keys(postBody)
+		UpdateExpression: "set " + Object.keys(postBody)
 				.map((k) => `#${k} = :${k}`)
 				.join(", "),
 
 		ExpressionAttributeNames: Object.entries(postBody).reduce(
-			(acc, cur) => ({ ...acc, [`#${cur[0]}`]: cur[0] }),
+			(accumulator, current) => ({ ...accumulator, [`#${current[0]}`]: current[0] }),
 			{}
 		),
 		ExpressionAttributeValues: Object.entries(postBody).reduce(
-			(acc, cur) => ({ ...acc, [`:${cur[0]}`]: cur[1] }),
+			(accumulator, current) => ({ ...accumulator, [`:${current[0]}`]: current[1] }),
 			{}
 		),
 		ReturnValues: "UPDATED_NEW",
