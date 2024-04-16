@@ -23,7 +23,7 @@ export const getPostById = async (postId: string): Promise<PromiseResult<Documen
 		},
 	};
 
-	return await dynamoClient.get(params).promise();
+	return dynamoClient.get(params).promise();
 };
 
 export const createPost = async (
@@ -42,7 +42,7 @@ export const createPost = async (
 
 	console.log(post);
 
-	return await dynamoClient.put(params).promise();
+	return dynamoClient.put(params).promise();
 };
 
 export const updatePost = async (postId: string, postBody: IPostDTO) => {
